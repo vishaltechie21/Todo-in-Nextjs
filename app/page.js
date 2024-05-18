@@ -1,10 +1,12 @@
 "use client"
 import React, { useState } from 'react';
+import { signInWithPopup, signOut } from "./Firebase"; // Import the signOut function
 
 const Page = () => {
   const [title, setTitle] = useState('');
   const [dis, setDis] = useState('');
   const [mainTask, setMainTask] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Add state for login status
 
   const SubmitHandler = (e) => {
     e.preventDefault();
@@ -21,12 +23,26 @@ const Page = () => {
     console.log(copyTask);
   };
 
+  const handleLogin = async () => {
+    try {
+      await signInWithPopup();
+      setIsLoggedIn(true);
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  const handleLogout = () => {
+    signOut(); // Call the signOut function
+    setIsLoggedIn(false); // Update login status
+  };
+
   let renderTask = <h2>No Task Available</h2>;
   if (mainTask.length > 0) {
     renderTask = mainTask.map((t, i) => {
       return (
         <li key={i} className='flex items-center justify-between mb-8'>
-          <div className='flex items-center justify-between w-2/3'>
+          <div className='flex items-center justify-between w-2/3 px-2 py-4'>
             <h5 className='mb-3'>Your Task: {t.title} </h5>
             <h5>Your Description: {t.dis}</h5>
           </div>
@@ -41,10 +57,16 @@ const Page = () => {
       );
     });
   }
+
   return (
     <>
       <div className='bg-slate-400 font-mono font-bold text-center text-xl py-4 md:py-8'>
         Todo List
+        {isLoggedIn ? ( // Conditionally render login/logout button
+          <button onClick={handleLogout} className='flex float-right mr-4 border-amber-50 border-2 text-center bg-slate-500'>Logout</button>
+        ) : (
+          <button onClick={handleLogin} className='flex float-right mr-4 border-amber-50 border-2 text-center bg-slate-500'>Login</button>
+        )}
       </div>
 
       <form
@@ -72,7 +94,18 @@ const Page = () => {
       </form>
 
       <hr className='my-4 md:my-8' />
-      <div className='text-center bg-red-200 py-4'>{renderTask}</div>
+      <div className='text-center bg-red-200 py-4 m-2'>{renderTask}</div>
+      <hr className='my-4 md:my-8' />
+
+      {isLoggedIn && (
+        <>
+          <h5 className='float-right rounded-full mr-3 '>
+             { <img   src={localStorage.getItem("photo")} />}
+          </h5>
+          <h5>{localStorage.getItem("name")}</h5>
+          <h5>{localStorage.getItem("email")}</h5>
+        </>
+      )}
     </>
   );
 };
