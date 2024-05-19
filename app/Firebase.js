@@ -4,14 +4,16 @@ import { getAuth, GoogleAuthProvider, signInWithPopup as firebaseSignInWithPopup
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCyXYHig7hf40HahxgOLkNiH_Br287p2e8",
-  authDomain: "todo-authentication-9dd96.firebaseapp.com",
-  projectId: "todo-authentication-9dd96",
-  storageBucket: "todo-authentication-9dd96.appspot.com",
-  messagingSenderId: "1079919278648",
-  appId: "1:1079919278648:web:02eff716a7820ff506c4cd",
-  measurementId: "G-YE39KN224H"
+    apiKey: "AIzaSyCyXYHig7hf40HahxgOLkNiH_Br287p2e8",
+    authDomain: "todo-authentication-9dd96.firebaseapp.com",
+    projectId: "todo-authentication-9dd96",
+    storageBucket: "todo-authentication-9dd96.appspot.com",
+    messagingSenderId: "1079919278648",
+    appId: "1:1079919278648:web:02eff716a7820ff506c4cd",
+    measurementId: "G-YE39KN224H"
 };
+
+
 
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
@@ -36,14 +38,14 @@ export const signInWithPopup = () => {
 };
 
 export const signOut = () => {
-  firebaseSignOut(auth)
-    .then(() => {
-      // Clear user information from local storage
-      localStorage.removeItem("name");
-      localStorage.removeItem("email");
-      localStorage.removeItem("photo");
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
+    firebaseSignOut(auth)
+      .then(() => {
+        // Clear user information from local storage
+        localStorage.removeItem("name");
+        localStorage.removeItem("email");
+        localStorage.removeItem("photo");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
