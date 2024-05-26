@@ -1,5 +1,4 @@
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { getAuth, GoogleAuthProvider, signInWithPopup as firebaseSignInWithPopup, signOut as firebaseSignOut } from "firebase/auth";
 
 
@@ -15,28 +14,32 @@ const firebaseConfig = {
 
 
 
+// Initialize Firebase app
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+
+// Get Auth instance
 const auth = getAuth(app);
 
+// Create Google auth provider instance
 const googleProvider = new GoogleAuthProvider();
 
+// Function to sign in with Google Popup
 export const signInWithPopup = () => {
   firebaseSignInWithPopup(auth, googleProvider)
     .then((result) => {
-      const name = result.user.displayName;
-      const photo = result.user.photoURL;
-      const email = result.user.email;
+      const { displayName, email, photoURL } = result.user;
 
-      localStorage.setItem("name", name);
+      // Store user information in local storage
+      localStorage.setItem("name", displayName);
       localStorage.setItem("email", email);
-      localStorage.setItem("photo", photo);
+      localStorage.setItem("photo", photoURL);
     })
     .catch((error) => {
       console.log(error);
     });
 };
 
+// Function to sign out
 export const signOut = () => {
     firebaseSignOut(auth)
       .then(() => {
@@ -48,4 +51,4 @@ export const signOut = () => {
       .catch((error) => {
         console.log(error);
       });
-  };
+};
