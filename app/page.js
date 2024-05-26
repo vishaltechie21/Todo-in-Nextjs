@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { signInWithPopup, signOut } from "./Firebase"; // Import the signOut function
 
 const Page = () => {
@@ -8,20 +8,11 @@ const Page = () => {
   const [mainTask, setMainTask] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Add state for login status
 
-  useEffect(() => {
-    // Check if window is defined before accessing Firebase related functionality
-    if (typeof window !== 'undefined') {
-      // Access Firebase functions here
-      // For example, initialize Firebase analytics or other services
-    }
-  }, []);
-
   const SubmitHandler = (e) => {
     e.preventDefault();
     setMainTask([...mainTask, { title, dis }]);
     setDis('');
     setTitle('');
-    console.log(mainTask);
   };
 
   const deleteHandler = (i) => {
